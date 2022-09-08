@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities;
 using Core.Utilities.Results;
@@ -20,7 +21,8 @@ namespace Business.Concrete
         {
             this.productDal = productDal;
         }
-        [ValidationAspect(typeof(ProductValidator))]
+
+        [ValidationAspect(typeof(ProductValidator), Priority = 1)]
         public IResult Add(Product product)
         {
 
@@ -29,7 +31,7 @@ namespace Business.Concrete
         }
 
         public IResult Delete(Product product)
-        { 
+        {
 
             productDal.Delete(product);
             return new SuccessResult(Messages.ProductDeleted);
@@ -37,7 +39,7 @@ namespace Business.Concrete
 
         public IDataResult<Product> GetById(int productId)
         {
-           return new SuccessDataResult<Product>(productDal.Get(i => i.ProductId == productId));
+            return new SuccessDataResult<Product>(productDal.Get(i => i.ProductId == productId));
         }
 
         public IDataResult<List<Product>> GetList()
@@ -48,12 +50,20 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
             return new SuccessDataResult<List<Product>>(productDal.GetList(i => i.CategoryId == categoryId).ToList());
-                }
+        }
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(Product product)
+        {
+            productDal.Update(product);
+            productDal.Add(product);
+            return new SuccessResult(Messages.ProductUpdated);
+
+        }
 
         public IResult Update(Product product)
         {
             productDal.Update(product);
-            return new SuccessResult(Messages.CategoryUpdated);
+            return new SuccessResult(Messages.ProductUpdated);
         }
     }
 }
