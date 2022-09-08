@@ -1,13 +1,10 @@
-﻿using Business.Abstract;
+﻿
+using Business.Abstract;
 using Business.Constants;
 using Core.Entity.Concrete;
-using Core.Utilities;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -34,7 +31,7 @@ namespace Business.Concrete
 
         public List<OperationClaim> GetClaims(User user)
         {
-            return  (userDal.GetClaim(user));
+            return userDal.GetClaims(user);
         }
 
         public User GetByMail(string email)

@@ -1,14 +1,15 @@
-
-
-
 using Core.Utilities.Security.Encyption;
 using Core.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
@@ -66,9 +67,10 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseAuthorization();
+
             app.UseAuthentication();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -77,4 +79,3 @@ namespace WebAPI
         }
     }
 }
-  
