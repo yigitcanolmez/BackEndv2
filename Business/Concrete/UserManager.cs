@@ -32,9 +32,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        public IDataResult<List<OperationClaim>> GetClaims(User user)
+        public List<OperationClaim> GetClaims(User user)
         {
-            return new SuccessDataResult<List<OperationClaim>>(userDal.GetClaim(user));
+            return  (userDal.GetClaim(user));
         }
 
         public User GetByMail(string email)
