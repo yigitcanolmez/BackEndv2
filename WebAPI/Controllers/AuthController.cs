@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
             {
                 return Ok(result.Data);
             }
-
+            //merh
             return BadRequest(result.Message);
         }
     }
